@@ -98,6 +98,14 @@ class Validation
         return $this;
     }
 
+    public function setFromGroup(ValidationGroup $group) : static
+    {
+        $this->rules = $group->getRules();
+        $this->labels = $group->getLabels();
+        $this->messages = $group->getMessages();
+        return $this;
+    }
+
     /**
      * Set label for a field.
      *
@@ -381,7 +389,7 @@ class Validation
         foreach ($rules as $key => $rule) {
             if ($rule['rule'] === 'optional') {
                 $ruleKey = $key;
-                if (empty($data[$field])) {
+                if ( ! isset($data[$field]) || $data[$field] === '') {
                     return true;
                 }
             }
